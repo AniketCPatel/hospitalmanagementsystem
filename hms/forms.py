@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Length, ValidationError
 
 class LoginForm(FlaskForm):
@@ -32,3 +32,11 @@ class LoginForm(FlaskForm):
 			raise ValidationError("Password should contain atleast 1 digit!!!")
 		if not special:
 			raise ValidationError("Password should contain atleast 1 special character!!!")
+
+class SearchForm(FlaskForm):
+	patient_id = IntegerField("Patient ID", validators=[DataRequired()])
+	submit = SubmitField("Search")
+
+	def validate_patient_id(self, patient_id):
+		if patient_id.data < 10000000:
+			raise ValidationError("Patient ID should be atleast 8 digits!!!")
