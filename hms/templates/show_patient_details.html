@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1>Patient Details</h1>
+<div class="row">
+	<div class="col">
+		Patient ID <br>
+		Name <br>
+		Age	<br>
+		Address <br>
+		Date of joining <br>
+		Date of discharge <br>
+		Room Type <br>
+		State <br>
+		City <br>
+		Status <br>
+	</div>
+	<div class="col">
+		: {{ patient.patient_id }} <br>
+		: {{ patient.patient_name }} <br>
+		: {{ patient.patient_age }} <br>
+		: {{ patient.patient_address }} <br>
+		: {{ patient.patient_DOJ }} <br>
+		: {{ patient.patient_DOD }} <br>
+		: {{ patient.patient_room_type }} <br>
+		: {{ patient.patient_state }} <br>
+		: {{ patient.patient_city }} <br>
+		: {{ patient.patient_status }} <br>
+	</div>
+	<div class="col"></div>
+</div>
+{% endblock content %}
