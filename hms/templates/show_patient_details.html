@@ -28,4 +28,42 @@
 	</div>
 	<div class="col"></div>
 </div>
+{% if session.get('ROLE') == "adm_desk" or session.get('ROLE') == "pharm" %}
+<h1>Medicines Issued</h1>
+<div class="row">
+	<table class="table">
+		<tr class="table-primary">
+			<th>Medicine Name</th>
+			<th>Quantity</th>
+			<th>Rate</th>
+			<th>Amount</th>
+		</tr>
+		{% for medicine in patient.medicines %}
+		<tr>
+			<td>{{ medicine.medicine_name }}</td>
+			<td>{{ medicine.medicine_quantity }}</td>
+			<td>{{ medicine.medicine_rate }}</td>
+			<td>{{ medicine.medicine_amount }}</td>
+		</tr>
+		{% endfor %}
+	</table>	
+</div>
+{% endif %}
+{% if session.get('ROLE') == "adm_desk" or session.get('ROLE') == "diag" %}
+<h1>Diagnostics Conducted</h1>
+<div class="row">
+	<table class="table">
+		<tr class="table-primary">
+			<th>Diagnostics Name</th>
+			<th>Amount</th>
+		</tr>
+		{% for diagnostics in patient.diagnostics %}
+		<tr>
+			<td>{{ diagnostics.diagnostics_name }}</td>
+			<td>{{ diagnostics.diagnostics_amount }}</td>
+		</tr>
+		{% endfor %}
+	</table>	
+</div>
+{% endif %}
 {% endblock content %}

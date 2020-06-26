@@ -23,15 +23,15 @@ def login():
 	return render_template('login.html', title='Login', form=form)
 
 
-@app.route('/view_all_patients')
-def view_all_patients():
+@app.route('/view_active_patients')
+def view_active_patients():
 	if session.get('ROLE') != "adm_desk":
 		flash("Action Forbidden!!!", category="danger")
 		return redirect(url_for('login'))
 	else:
 		page = request.args.get('page', 1, type=int)
-		patients = Patient.query.order_by(Patient.patient_id).paginate(page=page, per_page=10)
-		return render_template('view_all_patients.html', title="All Patients", patients=patients)
+		patients = Patient.query.filter_by(patient_status="active").order_by(Patient.patient_id).paginate(page=page, per_page=10)
+		return render_template('view_active_patients.html', title="All Patients", patients=patients)
 
 
 @app.route('/show_patient_details')
