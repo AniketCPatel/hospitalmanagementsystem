@@ -68,7 +68,6 @@
 				<th>{{ med_total_amount }}</th>
 			</tr>
 		</table>
-		<div class="ml-auto">Medicines Total Amount : {{ med_total_amount }}</div>
 	</div>
 	<br>
 	{% if session.get('ROLE') == "pharm" %}
@@ -99,7 +98,6 @@
 				<th>{{ diag_total_amount }}</th>
 			</tr>
 		</table>
-		<div class="ml-auto">Diagnostics Total Amount : {{ diag_total_amount }}</div>
 	</div>
 	<br>
 	{% if session.get('ROLE') == "diag" %}
