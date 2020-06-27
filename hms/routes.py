@@ -1,6 +1,6 @@
 from hms import app, db, bcrypt
-from hms.forms import LoginForm, SearchForm, PatientDetailsForm, ConfirmationForm, MedicinesForm
-from hms.models import User, Patient, Medicine
+from hms.forms import LoginForm, SearchForm, PatientDetailsForm, ConfirmationForm, MedicinesForm, DiagnosticsForm
+from hms.models import User, Patient, Medicine, Diagnostics
 from flask import render_template, redirect, url_for, session, flash, request
 from datetime import date as dt
 from sqlalchemy import or_
@@ -158,10 +158,39 @@ def issue_medicines():
 			db.session.commit()
 			flash("Medicine Successfully Added!!!", category="success")
 			return redirect(url_for('show_patient_details', patient_id=medicine.patient_id))
+		elif not patient_id:
+			flash("Patient Not Found!!!", category="danger")
+			return redirect(url_for('search_patient'))
 		med_total_amount = 0
 		for medicine in patient.medicines:
 			med_total_amount += medicine.medicine_amount
 		return render_template('issue_medicines.html', title="Add Medicines", form=form, patient=patient, med_total_amount=med_total_amount)
+
+
+@app.route('/add_diagnostics_test', methods=['GET', 'POST'])
+def add_diagnostics_test():
+	if session.get('ROLE') != "diag":
+		flash("Action Forbidden!!!", category="danger")
+		return redirect(url_for('search_patient'))
+	else:
+		form = DiagnosticsForm()
+		patient_id = request.args.get('patient_id', None, type=int)
+		patient = Patient.query.filter_by(patient_id=patient_id).first()
+		if not form.diagnostics_id.data:
+			form.diagnostics_id.data = DiagnosticsForm.generate_diagnostics_id()
+		if form.validate_on_submit() and patient_id:
+			diagnostic = Diagnostics(diagnostics_id=form.diagnostics_id.data, diagnostics_name=form.diagnostics_name.data, diagnostics_amount=form.diagnostics_amount.data, patient_id=patient_id)
+			db.session.add(diagnostic)
+			db.session.commit()
+			flash("Diagnostics Test Added Successfully!!!", category="success")
+			return redirect(url_for('show_patient_details', patient_id=patient_id))
+		elif not patient_id:
+			flash("User Not Found!!!", category="danger")
+			return redirect(url_for('search_patient'))
+		diag_total_amount = 0
+		for diagnostic in patient.diagnostics:
+			diag_total_amount += diagnostic.diagnostics_amount
+		return render_template('add_diagnostics_test.html', title="Add Diagnostics Test", form=form, patient=patient, diag_total_amount=diag_total_amount)
 
 
 @app.route('/logout')

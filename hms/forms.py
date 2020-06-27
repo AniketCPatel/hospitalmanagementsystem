@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, DateField, SelectField, BooleanField, FloatField
 from wtforms.validators import DataRequired, Length, ValidationError
 from datetime import date as dt
-from hms.models import Patient, Medicine
+from hms.models import Patient, Medicine, Diagnostics
 
 
 class LoginForm(FlaskForm):
@@ -91,3 +91,16 @@ class MedicinesForm(FlaskForm):
 		total_medicines = len(Medicine.query.all())
 		nextMedicineID = first_medicine_id + total_medicines + 5
 		return nextMedicineID
+
+class DiagnosticsForm(FlaskForm):
+	diagnostics_id = IntegerField("Diagnostics ID", validators=[DataRequired()])
+	diagnostics_name = StringField("Name", validators=[DataRequired(), Length(max=20)])
+	diagnostics_amount = FloatField("Amount", validators=[DataRequired()])
+	submit = SubmitField("Submit")
+
+	@staticmethod
+	def generate_diagnostics_id():
+		first_diag_id = Diagnostics.query.first().diagnostics_id
+		total_diag = len(Diagnostics.query.all())
+		nextDiagID = first_diag_id + total_diag + 3
+		return nextDiagID
