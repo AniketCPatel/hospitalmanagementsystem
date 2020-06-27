@@ -1,6 +1,7 @@
 from hms import app, db, bcrypt
 from hms.forms import LoginForm, SearchForm, PatientDetailsForm, ConfirmationForm, MedicinesForm, DiagnosticsForm
 from hms.models import User, Patient, Medicine, Diagnostics
+from hms.utils import *
 from flask import render_template, redirect, url_for, session, flash, request
 from datetime import date as dt
 from sqlalchemy import or_
@@ -191,6 +192,41 @@ def add_diagnostics_test():
 		for diagnostic in patient.diagnostics:
 			diag_total_amount += diagnostic.diagnostics_amount
 		return render_template('add_diagnostics_test.html', title="Add Diagnostics Test", form=form, patient=patient, diag_total_amount=diag_total_amount)
+
+
+@app.route('/generate_bill', methods=['GET', 'POST'])
+def generate_bill():
+	if session.get('ROLE') != "adm_desk":
+		flash("Action Not Allowed!!!", category="danger")
+		return redirect(url_for('search_patient'))
+	else:
+		patient_id = request.args.get('patient_id', None, type=int)
+		if not patient_id:
+			flash("Patient Not Found!!!", category="danger")
+			return redirect(url_for('search_patient'))
+		else:
+			form = ConfirmationForm()
+			patient = Patient.query.filter_by(patient_id=patient_id).first()
+			if patient.patient_status.lower() == "inactive":
+				flash("Patient Already Discharged!!! Bill cannot be generated!!!", category="danger")
+				return redirect(url_for('search_patient'))
+			else:
+				if form.validate_on_submit():
+					patient.patient_DOD = dt.today()
+					patient.patient_status = "Inactive"
+					days = calculate_days(patient.patient_DOJ, patient.patient_DOD)
+					room_fees = calculate_room_fees(patient.patient_room_type, days)
+					med_total_amount = 0
+					for medicine in patient.medicines:
+						med_total_amount += medicine.medicine_amount
+					diag_total_amount = 0
+					for diagnostic in patient.diagnostics:
+						diag_total_amount += diagnostic.diagnostics_amount
+					grand_total = room_fees + med_total_amount + diag_total_amount
+					db.session.commit()
+					flash("Bill Generated and Patient Discharged!!!", category="success")
+					return render_template('bill.html', title="Bill", patient=patient, days=days, room_fees=room_fees, med_total_amount=med_total_amount, diag_total_amount=diag_total_amount, grand_total=grand_total)
+				return render_template('generate_bill.html', title="Generate Bill", form=form, patient=patient)
 
 
 @app.route('/logout')
