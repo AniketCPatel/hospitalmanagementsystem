@@ -94,7 +94,7 @@
 	<br>
 	{% if session.get('ROLE') == "diag" %}
 	<div>
-		<a class="btn btn-primary" href="#">Add New Diagnostics Tests</a>
+		<a class="btn btn-primary" href="{{ url_for('add_diagnostics_test', patient_id=patient.patient_id) }}">Add New Diagnostics Tests</a>
 	</div>
 	<br>
 	{% endif %}
