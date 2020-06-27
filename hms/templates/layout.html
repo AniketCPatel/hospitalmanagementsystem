@@ -27,7 +27,7 @@
 					</li>
 					{% if session.get('ROLE') == "adm_desk" %}
 					<li class="nav-item">
-						<a class="nav-link" href="#">Add Patient</a>
+						<a class="nav-link" href="{{ url_for('add_patient') }}">Add Patient</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('view_active_patients') }}">View Active Patients</a>
