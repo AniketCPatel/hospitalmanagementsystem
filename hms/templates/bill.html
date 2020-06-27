@@ -33,16 +33,7 @@
 		</div>
 	</div>
 	<br>
-	{% if session.get('ROLE') == "adm_desk" %}
-	<div>
-		<a class="btn btn-success" href="{{ url_for('update_patient_details', patient_id=patient.patient_id) }}">Update Patient Details</a>
-		<a class="btn btn-danger" href="{{ url_for('delete_patient', patient_id=patient.patient_id) }}">Delete Patient</a>
-		<a class="btn btn-primary" href="{{ url_for('generate_bill', patient_id=patient.patient_id) }}">Generate Bill</a>
-	</div>
-	<br>
-	{% endif %}
 </section>
-{% if session.get('ROLE') == "adm_desk" or session.get('ROLE') == "pharm" %}
 <section>
 	<h1>Medicines Issued</h1>
 	<div class="row">
@@ -68,18 +59,9 @@
 				<th>{{ med_total_amount }}</th>
 			</tr>
 		</table>
-		<div class="ml-auto">Medicines Total Amount : {{ med_total_amount }}</div>
 	</div>
 	<br>
-	{% if session.get('ROLE') == "pharm" %}
-	<div>
-		<a class="btn btn-primary" href="{{ url_for('issue_medicines', patient_id=patient.patient_id) }}">Issue New Medicines</a>
-	</div>
-	<br>
-	{% endif %}
 </section>
-{% endif %}
-{% if session.get('ROLE') == "adm_desk" or session.get('ROLE') == "diag" %}
 <section>
 	<h1>Diagnostics Conducted</h1>
 	<div class="row">
@@ -99,15 +81,31 @@
 				<th>{{ diag_total_amount }}</th>
 			</tr>
 		</table>
-		<div class="ml-auto">Diagnostics Total Amount : {{ diag_total_amount }}</div>
 	</div>
 	<br>
-	{% if session.get('ROLE') == "diag" %}
-	<div>
-		<a class="btn btn-primary" href="{{ url_for('add_diagnostics_test', patient_id=patient.patient_id) }}">Add New Diagnostics Tests</a>
-	</div>
-	<br>
-	{% endif %}
 </section>
-{% endif %}
+<section>
+	<h1>Billing Details : </h1> <br> <br>
+	<div class="row">
+		<div class="col">
+			Total days of admission <br>
+			Total Amount for room <br>
+			Medicines Total Amount <br>
+			Diagnostics Total Amount <br>
+			<b>Grand Total</b> <br>
+		</div>
+		<div class="col">
+			: {{ days }}<br>
+			: {{ room_fees }}<br>
+			: {{ med_total_amount }}<br>
+			: {{ diag_total_amount }}<br>
+			<b>: {{ grand_total }}</b><br>
+		</div>
+		<div class="col"></div>
+	</div>
+</section>
+<br>
+<a class="btn btn-primary" href="{{ url_for('search_patient') }}">Go To Search Patient</a>
+<br>
+<br>
 {% endblock content %}

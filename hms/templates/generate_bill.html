@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% block content %}
+<section>
+	<h1>Patient Details</h1>
+	<div class="row">
+		<div class="col">
+			Patient ID <br>
+			Name <br>
+			Age	<br>
+			Address <br>
+			Date of joining <br>
+			Date of discharge <br>
+			Room Type <br>
+			State <br>
+			City <br>
+			Status <br>
+		</div>
+		<div class="col pr-auto">
+			: {{ patient.patient_id }} <br>
+			: {{ patient.patient_name }} <br>
+			: {{ patient.patient_age }} <br>
+			: {{ patient.patient_address }} <br>
+			: {{ patient.patient_DOJ }} <br>
+			{% if patient.patient_DOD.strftime("%Y-%B-%d") == "3000-January-01" %}
+			: Not Discharged Yet <br>
+			{% else %}
+			: {{ patient.patient_DOD }} <br>
+			{% endif %}
+			: {{ patient.patient_room_type }} <br>
+			: {{ patient.patient_state }} <br>
+			: {{ patient.patient_city }} <br>
+			: {{ patient.patient_status }} <br>
+		</div>
+	</div>
+	<form action="" method="POST">
+		{{ form.hidden_tag() }}
+		Are you sure you want to generate bill for this patient?? <br>
+		{{ form.confirm }}
+		{{ form.confirm.label(class="form-control-label") }} <br>
+		<div class="row">
+			{{ form.patient_id.label(class="col form-control-label") }}
+			{{ form.patient_id(class="col form-control") }}
+			<div class="col"></div>
+		</div> <br>
+		{{ form.submit(class="btn btn-danger") }}
+		<a class="btn btn-primary" href="{{ url_for('show_patient_details', patient_id=patient.patient_id) }}">Go Back</a>
+	</form>
+</section>
+<br>
+<br>
+{% endblock content %}
