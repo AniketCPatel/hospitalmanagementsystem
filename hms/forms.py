@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField, DateField, SelectField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, DateField, SelectField, BooleanField, FloatField
 from wtforms.validators import DataRequired, Length, ValidationError
 from datetime import date as dt
-from hms.models import Patient
+from hms.models import Patient, Medicine
 
 
 class LoginForm(FlaskForm):
@@ -77,3 +77,17 @@ class ConfirmationForm(FlaskForm):
 	confirm = BooleanField("Yes", default=True)
 	patient_id = IntegerField("Patient ID", validators=[DataRequired()])
 	submit = SubmitField("Confirm")
+
+class MedicinesForm(FlaskForm):
+	medicine_id = IntegerField("Medicine ID", validators=[DataRequired()])
+	medicine_name = StringField("Name", validators=[DataRequired()])
+	medicine_rate = FloatField("Rate", validators=[DataRequired()])
+	medicine_quantity = IntegerField("Quantity", validators=[DataRequired()])
+	submit = SubmitField("Submit")
+	
+	@staticmethod
+	def generate_medicine_id():
+		first_medicine_id = Medicine.query.first().medicine_id
+		total_medicines = len(Medicine.query.all())
+		nextMedicineID = first_medicine_id + total_medicines + 5
+		return nextMedicineID

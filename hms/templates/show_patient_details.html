@@ -67,7 +67,7 @@
 	<br>
 	{% if session.get('ROLE') == "pharm" %}
 	<div>
-		<a class="btn btn-primary" href="#">Issue New Medicines</a>
+		<a class="btn btn-primary" href="{{ url_for('issue_medicines', patient_id=patient.patient_id) }}">Issue New Medicines</a>
 	</div>
 	<br>
 	{% endif %}

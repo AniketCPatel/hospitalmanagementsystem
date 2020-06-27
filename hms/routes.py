@@ -1,6 +1,6 @@
 from hms import app, db, bcrypt
-from hms.forms import LoginForm, SearchForm, PatientDetailsForm, ConfirmationForm
-from hms.models import User, Patient
+from hms.forms import LoginForm, SearchForm, PatientDetailsForm, ConfirmationForm, MedicinesForm
+from hms.models import User, Patient, Medicine
 from flask import render_template, redirect, url_for, session, flash, request
 from datetime import date as dt
 from sqlalchemy import or_
@@ -32,7 +32,7 @@ def login():
 def view_active_patients():
 	if session.get('ROLE') != "adm_desk":
 		flash("Action Forbidden!!!", category="danger")
-		return redirect(url_for('login'))
+		return redirect(url_for('search_patient'))
 	else:
 		page = request.args.get('page', 1, type=int)
 		patients = Patient.query.filter_by(patient_status="Active").order_by(Patient.patient_id).paginate(page=page, per_page=10)
@@ -75,57 +75,93 @@ def search_patient():
 
 @app.route('/add_patient', methods=['GET', 'POST'])
 def add_patient():
-	form = PatientDetailsForm()
-	if not form.patient_id.data:
-		form.patient_id.data = PatientDetailsForm.generate_patient_id()
-	form.patient_DOD.data = dt(3000,1,1)
-	if form.validate_on_submit():
-		patient = Patient(ssn=form.ssn.data, patient_id=form.patient_id.data, patient_name=form.patient_name.data, patient_address=form.patient_address.data, patient_age=form.patient_age.data, patient_DOJ=form.patient_DOJ.data, patient_DOD=form.patient_DOD.data, patient_room_type=form.patient_room_type.data, patient_state=form.patient_state.data, patient_city=form.patient_city.data, patient_status=form.patient_status.data)
-		db.session.add(patient)
-		db.session.commit()
-		flash("Patient Successfully Added!!!", category="success")
-		return redirect(url_for('show_patient_details', patient_id=patient.patient_id))
-	return render_template('add_patient.html', title="Add Patient", form=form)
+	if session.get('ROLE') != "adm_desk":
+		flash("Action Forbidden!!!", category="danger")
+		return redirect(url_for('search_patient'))
+	else:
+		form = PatientDetailsForm()
+		if not form.patient_id.data:
+			form.patient_id.data = PatientDetailsForm.generate_patient_id()
+		form.patient_DOD.data = dt(3000,1,1)
+		if form.validate_on_submit():
+			patient = Patient(ssn=form.ssn.data, patient_id=form.patient_id.data, patient_name=form.patient_name.data, patient_address=form.patient_address.data, patient_age=form.patient_age.data, patient_DOJ=form.patient_DOJ.data, patient_DOD=form.patient_DOD.data, patient_room_type=form.patient_room_type.data, patient_state=form.patient_state.data, patient_city=form.patient_city.data, patient_status=form.patient_status.data)
+			db.session.add(patient)
+			db.session.commit()
+			flash("Patient Successfully Added!!!", category="success")
+			return redirect(url_for('show_patient_details', patient_id=patient.patient_id))
+		return render_template('add_patient.html', title="Add Patient", form=form)
 
 
 @app.route('/update_patient_details', methods=['GET', 'POST'])
 def update_patient_details():
-	form = PatientDetailsForm()
-	patient_id = request.args.get('patient_id', None, type=int)
-	patient = Patient.query.filter_by(patient_id=patient_id).first()
-	form.ssn.data = patient.ssn
-	form.patient_id.data = patient_id
-	form.patient_DOJ.data = patient.patient_DOJ
-	form.patient_DOD.data = patient.patient_DOD
-	form.patient_status.data = patient.patient_status
-	if form.validate_on_submit():
-		patient.patient_name = form.patient_name.data
-		patient.patient_address = form.patient_address.data
-		patient.patient_age = form.patient_age.data
-		patient.patient_room_type = form.patient_room_type.data
-		patient.patient_state = form.patient_state.data
-		patient.patient_city = form.patient_city.data
-		db.session.commit()
-		flash("Patient Details Successfully Updated!!!", category="success")
-		return redirect(url_for('show_patient_details', patient_id=patient_id))
-	return render_template('update_patient_details.html', title="Update Details", form=form, patient_id=patient_id)
+	if session.get('ROLE') != "adm_desk":
+		flash("Action Forbidden!!!", category="danger")
+		return redirect(url_for('search_patient'))
+	else:
+		form = PatientDetailsForm()
+		patient_id = request.args.get('patient_id', None, type=int)
+		patient = Patient.query.filter_by(patient_id=patient_id).first()
+		form.ssn.data = patient.ssn
+		form.patient_id.data = patient_id
+		form.patient_DOJ.data = patient.patient_DOJ
+		form.patient_DOD.data = patient.patient_DOD
+		form.patient_status.data = patient.patient_status
+		if form.validate_on_submit():
+			patient.patient_name = form.patient_name.data
+			patient.patient_address = form.patient_address.data
+			patient.patient_age = form.patient_age.data
+			patient.patient_room_type = form.patient_room_type.data
+			patient.patient_state = form.patient_state.data
+			patient.patient_city = form.patient_city.data
+			db.session.commit()
+			flash("Patient Details Successfully Updated!!!", category="success")
+			return redirect(url_for('show_patient_details', patient_id=patient_id))
+		return render_template('update_patient_details.html', title="Update Details", form=form, patient_id=patient_id)
 
 
 @app.route('/delete_patient', methods=['GET', 'POST'])
 def delete_patient():
-	form = ConfirmationForm()
-	patient_id = request.args.get('patient_id', None, type=int)
-	patient = Patient.query.filter_by(patient_id=patient_id).first()
-	if form.validate_on_submit():
-		if form.patient_id.data == patient_id and patient_id != None:
-			patient.patient_status = "Inactive"
+	if session.get('ROLE') != "adm_desk":
+		flash("Action Forbidden!!!", category="danger")
+		return redirect(url_for('search_patient'))
+	else:
+		form = ConfirmationForm()
+		patient_id = request.args.get('patient_id', None, type=int)
+		patient = Patient.query.filter_by(patient_id=patient_id).first()
+		if form.validate_on_submit():
+			if form.patient_id.data == patient_id and patient_id != None:
+				patient.patient_status = "Inactive"
+				db.session.commit()
+				flash("Patient Data Successfully Deleted!!!", category="success")
+				return redirect(url_for('search_patient'))
+			else:
+				flash("Patient Not Found!!!", category="danger")
+				return redirect(url_for('search_patient'))
+		return render_template('delete_patient.html', title="Delete Patient", form=form, patient=patient)
+
+
+@app.route('/issue_medicines', methods=['GET', 'POST'])
+def issue_medicines():
+	if session.get('ROLE') != "pharm":
+		flash("Action Forbidden!!!", category="danger")
+		return redirect(url_for('search_patient'))
+	else:
+		form = MedicinesForm()
+		patient_id = request.args.get('patient_id', None, type=int)
+		patient = Patient.query.filter_by(patient_id=patient_id).first()
+		if not form.medicine_id.data:
+			form.medicine_id.data = MedicinesForm.generate_medicine_id()
+		if form.validate_on_submit() and patient_id:
+			medicine_amount = (form.medicine_rate.data * form.medicine_quantity.data)
+			medicine = Medicine(medicine_id=form.medicine_id.data, medicine_name=form.medicine_name.data, medicine_rate=form.medicine_rate.data, medicine_quantity=form.medicine_quantity.data, medicine_amount=medicine_amount, patient_id=patient_id)
+			db.session.add(medicine)
 			db.session.commit()
-			flash("Patient Data Successfully Deleted!!!", category="success")
-			return redirect(url_for('search_patient'))
-		else:
-			flash("Patient Not Found!!!", category="danger")
-			return redirect(url_for('search_patient'))
-	return render_template('delete_patient.html', title="Delete Patient", form=form, patient=patient)
+			flash("Medicine Successfully Added!!!", category="success")
+			return redirect(url_for('show_patient_details', patient_id=medicine.patient_id))
+		med_total_amount = 0
+		for medicine in patient.medicines:
+			med_total_amount += medicine.medicine_amount
+		return render_template('issue_medicines.html', title="Add Medicines", form=form, patient=patient, med_total_amount=med_total_amount)
 
 
 @app.route('/logout')
