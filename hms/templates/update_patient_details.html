@@ -6,7 +6,7 @@
 		<form action="" method="POST">
 			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
-				<legend>Add Patient</legend>
+				<legend>Update Patient Details</legend>
 				<div class="form-group">
 					{{ form.ssn.label(class="form-control-label") }}
 					{% if form.ssn.errors %}
@@ -112,7 +112,8 @@
 					{% endif %}
 				</div>
 				<div class="form-group">
-					{{ form.submit(class="btn btn-primary") }}
+					{{ form.submit(class="btn btn-primary") }} 
+					<a class="btn btn-primary" href="{{ url_for('show_patient_details', patient_id=patient_id) }}">Go Back</a>
 				</div>
 			</fieldset>
 		</form>

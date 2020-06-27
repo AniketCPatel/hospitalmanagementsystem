@@ -76,7 +76,8 @@ def search_patient():
 @app.route('/add_patient', methods=['GET', 'POST'])
 def add_patient():
 	form = PatientDetailsForm()
-	form.patient_id.data = PatientDetailsForm.generate_patient_id()
+	if not form.patient_id.data:
+		form.patient_id.data = PatientDetailsForm.generate_patient_id()
 	form.patient_DOD.data = dt(3000,1,1)
 	if form.validate_on_submit():
 		patient = Patient(ssn=form.ssn.data, patient_id=form.patient_id.data, patient_name=form.patient_name.data, patient_address=form.patient_address.data, patient_age=form.patient_age.data, patient_DOJ=form.patient_DOJ.data, patient_DOD=form.patient_DOD.data, patient_room_type=form.patient_room_type.data, patient_state=form.patient_state.data, patient_city=form.patient_city.data, patient_status=form.patient_status.data)
@@ -107,7 +108,7 @@ def update_patient_details():
 		db.session.commit()
 		flash("Patient Details Successfully Updated!!!", category="success")
 		return redirect(url_for('show_patient_details', patient_id=patient_id))
-	return render_template('update_patient_details.html', title="Update Details", form=form)
+	return render_template('update_patient_details.html', title="Update Details", form=form, patient_id=patient_id)
 
 
 @app.route('/delete_patient', methods=['GET', 'POST'])
@@ -117,13 +118,7 @@ def delete_patient():
 	patient = Patient.query.filter_by(patient_id=patient_id).first()
 	if form.validate_on_submit():
 		if form.patient_id.data == patient_id and patient_id != None:
-			for medicine in patient.medicines:
-				db.session.delete(medicine)
-				db.session.commit()
-			for diagnostic in patient.diagnostics:
-				db.session.delete(diagnostic)
-				db.session.commit()
-			db.session.delete(patient)
+			patient.patient_status = "Inactive"
 			db.session.commit()
 			flash("Patient Data Successfully Deleted!!!", category="success")
 			return redirect(url_for('search_patient'))
