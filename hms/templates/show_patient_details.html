@@ -1,69 +1,103 @@
 {% extends 'layout.html' %}
 {% block content %}
-<h1>Patient Details</h1>
-<div class="row">
-	<div class="col">
-		Patient ID <br>
-		Name <br>
-		Age	<br>
-		Address <br>
-		Date of joining <br>
-		Date of discharge <br>
-		Room Type <br>
-		State <br>
-		City <br>
-		Status <br>
+<section>
+	<h1>Patient Details</h1>
+	<div class="row">
+		<div class="col">
+			Patient ID <br>
+			Name <br>
+			Age	<br>
+			Address <br>
+			Date of joining <br>
+			Date of discharge <br>
+			Room Type <br>
+			State <br>
+			City <br>
+			Status <br>
+		</div>
+		<div class="col pr-auto">
+			: {{ patient.patient_id }} <br>
+			: {{ patient.patient_name }} <br>
+			: {{ patient.patient_age }} <br>
+			: {{ patient.patient_address }} <br>
+			: {{ patient.patient_DOJ }} <br>
+			{% if patient.patient_DOD.strftime("%Y-%B-%d") == "3000-January-01" %}
+			: Not Discharged Yet <br>
+			{% else %}
+			: {{ patient.patient_DOD }} <br>
+			{% endif %}
+			: {{ patient.patient_room_type }} <br>
+			: {{ patient.patient_state }} <br>
+			: {{ patient.patient_city }} <br>
+			: {{ patient.patient_status }} <br>
+		</div>
 	</div>
-	<div class="col">
-		: {{ patient.patient_id }} <br>
-		: {{ patient.patient_name }} <br>
-		: {{ patient.patient_age }} <br>
-		: {{ patient.patient_address }} <br>
-		: {{ patient.patient_DOJ }} <br>
-		: {{ patient.patient_DOD }} <br>
-		: {{ patient.patient_room_type }} <br>
-		: {{ patient.patient_state }} <br>
-		: {{ patient.patient_city }} <br>
-		: {{ patient.patient_status }} <br>
+	<br>
+	{% if session.get('ROLE') == "adm_desk" %}
+	<div>
+		<a class="btn btn-success" href="{{ url_for('update_patient_details', patient_id=patient.patient_id) }}">Update Patient Details</a>
+		<a class="btn btn-danger" href="{{ url_for('delete_patient', patient_id=patient.patient_id) }}">Delete Patient</a>
+		<a class="btn btn-primary" href="#">Generate Bill</a>
 	</div>
-	<div class="col"></div>
-</div>
+	<br>
+	{% endif %}
+</section>
 {% if session.get('ROLE') == "adm_desk" or session.get('ROLE') == "pharm" %}
-<h1>Medicines Issued</h1>
-<div class="row">
-	<table class="table">
-		<tr class="table-primary">
-			<th>Medicine Name</th>
-			<th>Quantity</th>
-			<th>Rate</th>
-			<th>Amount</th>
-		</tr>
-		{% for medicine in patient.medicines %}
-		<tr>
-			<td>{{ medicine.medicine_name }}</td>
-			<td>{{ medicine.medicine_quantity }}</td>
-			<td>{{ medicine.medicine_rate }}</td>
-			<td>{{ medicine.medicine_amount }}</td>
-		</tr>
-		{% endfor %}
-	</table>	
-</div>
+<section>
+	<h1>Medicines Issued</h1>
+	<div class="row">
+		<table class="table">
+			<tr class="table-primary">
+				<th>Medicine Name</th>
+				<th>Quantity</th>
+				<th>Rate</th>
+				<th>Amount</th>
+			</tr>
+			{% for medicine in patient.medicines %}
+			<tr>
+				<td>{{ medicine.medicine_name }}</td>
+				<td>{{ medicine.medicine_quantity }}</td>
+				<td>{{ medicine.medicine_rate }}</td>
+				<td>{{ medicine.medicine_amount }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		Medicines Total Amount : {{ med_total_amount }}
+	</div>
+	<br>
+	{% if session.get('ROLE') == "pharm" %}
+	<div>
+		<a class="btn btn-primary" href="#">Issue New Medicines</a>
+	</div>
+	<br>
+	{% endif %}
+</section>
 {% endif %}
 {% if session.get('ROLE') == "adm_desk" or session.get('ROLE') == "diag" %}
-<h1>Diagnostics Conducted</h1>
-<div class="row">
-	<table class="table">
-		<tr class="table-primary">
-			<th>Diagnostics Name</th>
-			<th>Amount</th>
-		</tr>
-		{% for diagnostics in patient.diagnostics %}
-		<tr>
-			<td>{{ diagnostics.diagnostics_name }}</td>
-			<td>{{ diagnostics.diagnostics_amount }}</td>
-		</tr>
-		{% endfor %}
-	</table>	
-</div>
+<section>
+	<h1>Diagnostics Conducted</h1>
+	<div class="row">
+		<table class="table">
+			<tr class="table-primary">
+				<th>Diagnostics Name</th>
+				<th>Amount</th>
+			</tr>
+			{% for diagnostics in patient.diagnostics %}
+			<tr>
+				<td>{{ diagnostics.diagnostics_name }}</td>
+				<td>{{ diagnostics.diagnostics_amount }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		Diagnostics Total Amount : {{ diag_total_amount }}
+	</div>
+	<br>
+	{% if session.get('ROLE') == "diag" %}
+	<div>
+		<a class="btn btn-primary" href="#">Add New Diagnostics Tests</a>
+	</div>
+	<br>
+	{% endif %}
+</section>
 {% endif %}
 {% endblock content %}
