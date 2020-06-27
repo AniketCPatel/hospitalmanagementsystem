@@ -43,6 +43,7 @@
 			<div class="col"></div>
 		</div> <br>
 		{{ form.submit(class="btn btn-danger") }}
+		<a class="btn btn-primary" href="{{ url_for('show_patient_details', patient_id=patient.patient_id) }}">Go Back</a>
 	</form>
 </section>
 {% endblock content %}

@@ -62,12 +62,12 @@
 			</tr>
 			{% endfor %}
 		</table>
-		Medicines Total Amount : {{ med_total_amount }}
+		<div class="ml-auto">Medicines Total Amount : {{ med_total_amount }}</div>
 	</div>
 	<br>
 	{% if session.get('ROLE') == "pharm" %}
 	<div>
-		<a class="btn btn-primary" href="#">Issue New Medicines</a>
+		<a class="btn btn-primary" href="{{ url_for('issue_medicines', patient_id=patient.patient_id) }}">Issue New Medicines</a>
 	</div>
 	<br>
 	{% endif %}
@@ -89,7 +89,7 @@
 			</tr>
 			{% endfor %}
 		</table>
-		Diagnostics Total Amount : {{ diag_total_amount }}
+		<div class="ml-auto">Diagnostics Total Amount : {{ diag_total_amount }}</div>
 	</div>
 	<br>
 	{% if session.get('ROLE') == "diag" %}
