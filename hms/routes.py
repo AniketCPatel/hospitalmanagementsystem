@@ -84,6 +84,8 @@ def add_patient():
 		if not form.patient_id.data:
 			form.patient_id.data = PatientDetailsForm.generate_patient_id()
 		form.patient_DOD.data = dt(3000,1,1)
+		form.patient_DOD.data = dt.today()
+		form.patient_status.data = "Active"
 		if form.validate_on_submit():
 			patient = Patient(ssn=form.ssn.data, patient_id=form.patient_id.data, patient_name=form.patient_name.data, patient_address=form.patient_address.data, patient_age=form.patient_age.data, patient_DOJ=form.patient_DOJ.data, patient_DOD=form.patient_DOD.data, patient_room_type=form.patient_room_type.data, patient_state=form.patient_state.data, patient_city=form.patient_city.data, patient_status=form.patient_status.data)
 			db.session.add(patient)

@@ -73,19 +73,6 @@
 					{% endif %}
 				</div>
 				<div class="form-group">
-					{{ form.patient_DOJ.label(class="form-control-label") }}
-					{% if form.patient_DOJ.errors %}
-						{{ form.patient_DOJ(class="form-control is-invalid") }}
-						<div class="alert alert-danger">
-							{% for error in form.patient_DOJ.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.patient_DOJ(class="form-control") }}
-					{% endif %}
-				</div>
-				<div class="form-group">
 					{{ form.patient_room_type.label(class="form-control-label") }}
 					{% if form.patient_room_type.errors %}
 						{{ form.patient_room_type(class="form-control is-invalid") }}
@@ -122,19 +109,6 @@
 						</div>
 					{% else %}
 						{{ form.patient_city(class="form-control") }}
-					{% endif %}
-				</div>
-				<div class="form-group">
-					{{ form.patient_status.label(class="form-control-label") }}
-					{% if form.patient_status.errors %}
-						{{ form.patient_status(class="form-control is-invalid") }}
-						<div class="alert alert-danger">
-							{% for error in form.patient_status.errors %}
-								<span>{{ error }}</span>
-							{% endfor %}
-						</div>
-					{% else %}
-						{{ form.patient_status(class="form-control") }}
 					{% endif %}
 				</div>
 				<div class="form-group">
