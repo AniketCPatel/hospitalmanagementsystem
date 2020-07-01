@@ -42,36 +42,44 @@ def view_active_patients():
 
 @app.route('/show_patient_details')
 def show_patient_details():
-	patient_id = request.args.get('patient_id', None, type=int)
-	if not patient_id:
-		flash("Patient Not Found!!!", category="danger")
-		return redirect(url_for('search_patient'))
+	if not session.get('USER_ID'):
+		flash("Login First to view patient's details!!!", category="danger")
+		return redirect(url_for('login'))
 	else:
-		patient = Patient.query.filter_by(patient_id=patient_id).first()
-		if not patient:
+		patient_id = request.args.get('patient_id', None, type=int)
+		if not patient_id:
 			flash("Patient Not Found!!!", category="danger")
 			return redirect(url_for('search_patient'))
 		else:
-			med_total_amount = 0
-			diag_total_amount = 0
-			for medicine in patient.medicines:
-				med_total_amount += medicine.medicine_amount
-			for diagnostic in patient.diagnostics:
-				diag_total_amount += diagnostic.diagnostics_amount
-			return render_template('show_patient_details.html', title="Patient Details", patient=patient, med_total_amount=med_total_amount, diag_total_amount=diag_total_amount)
+			patient = Patient.query.filter_by(patient_id=patient_id).first()
+			if not patient:
+				flash("Patient Not Found!!!", category="danger")
+				return redirect(url_for('search_patient'))
+			else:
+				med_total_amount = 0
+				diag_total_amount = 0
+				for medicine in patient.medicines:
+					med_total_amount += medicine.medicine_amount
+				for diagnostic in patient.diagnostics:
+					diag_total_amount += diagnostic.diagnostics_amount
+				return render_template('show_patient_details.html', title="Patient Details", patient=patient, med_total_amount=med_total_amount, diag_total_amount=diag_total_amount)
 
 
 @app.route('/search_patient', methods=['GET', 'POST'])
 def search_patient():
-	form = SearchForm()
-	if form.validate_on_submit():
-		patient = Patient.query.filter_by(patient_id=form.patient_id.data).first()
-		if not patient:
-			flash("Patient Not Found!!!", category="danger")
-			return redirect(url_for('search_patient'))
-		else:
-			return redirect(url_for('show_patient_details', patient_id=patient.patient_id))
-	return render_template('search_patient.html', title="Search Patient", form=form)
+	if not session.get('USER_ID'):
+		flash("Login First to view patient's details!!!", category="danger")
+		return redirect(url_for('login'))
+	else:
+		form = SearchForm()
+		if form.validate_on_submit():
+			patient = Patient.query.filter_by(patient_id=form.patient_id.data).first()
+			if not patient:
+				flash("Patient Not Found!!!", category="danger")
+				return redirect(url_for('search_patient'))
+			else:
+				return redirect(url_for('show_patient_details', patient_id=patient.patient_id))
+		return render_template('search_patient.html', title="Search Patient", form=form)
 
 
 @app.route('/add_patient', methods=['GET', 'POST'])
@@ -233,6 +241,10 @@ def generate_bill():
 
 @app.route('/logout')
 def logout():
-	session['USER_ID'] = None
-	flash("Successfully Logged Out", category="success")
-	return redirect(url_for('login'))
+	if session.get('USER_ID'):
+		session['USER_ID'] = None
+		flash("Successfully Logged Out", category="success")
+		return redirect(url_for('login'))
+	else:
+		flash("Login First!!!", category="danger")
+		return redirect(url_for('login'))
