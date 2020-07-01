@@ -1,1 +1,11 @@
 /*Custom CSS Goes Here*/
+
+div {
+  font-size-adjust: 0.58;
+}
+
+.buttons {
+    color: #fff;
+    background-color: #32c69a;
+    border-color: 1px solid #000;
+}

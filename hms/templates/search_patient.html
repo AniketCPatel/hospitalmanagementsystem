@@ -1,13 +1,15 @@
 {% extends 'layout.html' %}
 {% block content %}
-<div class="row">
+<div class="col-lg-4 info_box_col">
+					<div class="info_form_container"><div class="col"></div>
+	<div class="col col-align-center">
 	<div class="col"></div>
 	<div class="col col-align-center">
 		<form action="" method="POST">
 			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
-				<legend>Search Details</legend>
-				<div class="form-group">
+				<legend class="section_title">Search Details</legend>
+				<div class="form-group" align="left">
 					{{ form.patient_id.label(class="form-control-label") }}
 					{% if form.patient_id.errors %}
 						{{ form.patient_id(class="form-control is-invalid") }}
@@ -21,11 +23,13 @@
 					{% endif %}
 				</div>
 				<div class="form-group">
-					{{ form.submit(class="btn btn-primary") }}
+					{{ form.submit(class="btn btn-outline buttons") }}
 				</div>
 			</fieldset>
 		</form>
 	</div>
 	<div class="col"></div>
+</div>
+</div>
 </div>
 {% endblock content %}

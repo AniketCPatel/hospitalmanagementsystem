@@ -1,13 +1,16 @@
 {% extends 'layout.html' %}
 {% block content %}
-<div class="row">
-	<div class="col"></div>
-	<div class="col col-align-center">
-		<form action="" method="POST">
-			{{ form.hidden_tag() }}
-			<fieldset class="form-group">
-				<legend>Add Patient</legend>
-				<div class="form-group">
+<div class="col-lg-4 info_box_col">
+					<div class="info_form_container">
+						
+						<div class="col"></div>
+							<div class="col col-align-center">
+								<form action="" method="POST">
+									{{ form.hidden_tag() }}
+									<fieldset class="form-group">
+										<legend  class="section_title">Add Patient</legend>
+										<div class="form-group"align="left">
+						
 					{{ form.ssn.label(class="form-control-label") }}
 					{% if form.ssn.errors %}
 						{{ form.ssn(class="form-control is-invalid") }}
@@ -20,7 +23,7 @@
 						{{ form.ssn(class="form-control") }}
 					{% endif %}
 				</div>
-				<div class="form-group">
+				<div class="form-group"align="left">
 					{{ form.patient_id.label(class="form-control-label") }}
 					{% if form.patient_id.errors %}
 						{{ form.patient_id(class="form-control is-invalid") }}
@@ -33,7 +36,7 @@
 						{{ form.patient_id(class="form-control") }}
 					{% endif %}
 				</div>
-				<div class="form-group">
+				<div class="form-group"align="left">
 					{{ form.patient_name.label(class="form-control-label") }}
 					{% if form.patient_name.errors %}
 						{{ form.patient_name(class="form-control is-invalid") }}
@@ -46,7 +49,7 @@
 						{{ form.patient_name(class="form-control") }}
 					{% endif %}
 				</div>
-				<div class="form-group">
+				<div class="form-group" align="left">
 					{{ form.patient_address.label(class="form-control-label") }}
 					{% if form.patient_address.errors %}
 						{{ form.patient_address(class="form-control is-invalid") }}
@@ -59,7 +62,7 @@
 						{{ form.patient_address(class="form-control") }}
 					{% endif %}
 				</div>
-				<div class="form-group">
+				<div class="form-group"align="left">
 					{{ form.patient_age.label(class="form-control-label") }}
 					{% if form.patient_age.errors %}
 						{{ form.patient_age(class="form-control is-invalid") }}
@@ -72,7 +75,7 @@
 						{{ form.patient_age(class="form-control") }}
 					{% endif %}
 				</div>
-				<div class="form-group">
+				<div class="form-group"align="left">
 					{{ form.patient_room_type.label(class="form-control-label") }}
 					{% if form.patient_room_type.errors %}
 						{{ form.patient_room_type(class="form-control is-invalid") }}
@@ -85,7 +88,7 @@
 						{{ form.patient_room_type(class="form-control") }}
 					{% endif %}
 				</div>
-				<div class="form-group">
+				<div class="form-group"align="left">
 					{{ form.patient_state.label(class="form-control-label") }}
 					{% if form.patient_state.errors %}
 						{{ form.patient_state(class="form-control is-invalid") }}
@@ -98,7 +101,7 @@
 						{{ form.patient_state(class="form-control") }}
 					{% endif %}
 				</div>
-				<div class="form-group">
+				<div class="form-group"align="left">
 					{{ form.patient_city.label(class="form-control-label") }}
 					{% if form.patient_city.errors %}
 						{{ form.patient_city(class="form-control is-invalid") }}
@@ -111,12 +114,13 @@
 						{{ form.patient_city(class="form-control") }}
 					{% endif %}
 				</div>
-				<div class="form-group">
-					{{ form.submit(class="btn btn-primary") }}
+				<div class="form-group"align="col-align-center">
+					{{ form.submit(class="info_form_button") }}
 				</div>
 			</fieldset>
 		</form>
 	</div>
 	<div class="col"></div>
+</div>
 </div>
 {% endblock content %}
