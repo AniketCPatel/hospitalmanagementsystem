@@ -38,21 +38,21 @@
 	<h1>Medicines Issued</h1>
 	<div class="row">
 		<table class="table">
-			<tr class="table-primary">
-				<th>Medicine Name</th>
-				<th>Quantity</th>
-				<th>Rate</th>
-				<th>Amount</th>
+			<tr class="table-primary" >
+				<th style="background-color: #32c69a;">Medicine Name</th>
+				<th style="background-color: #32c69a;">Quantity</th>
+				<th style="background-color: #32c69a;">Rate</th>
+				<th style="background-color: #32c69a;">Amount</th>
 			</tr>
 			{% for medicine in patient.medicines %}
-			<tr>
+			<tr style="border-top: 2px solid #32c69a">
 				<td>{{ medicine.medicine_name }}</td>
 				<td>{{ medicine.medicine_quantity }}</td>
 				<td>{{ medicine.medicine_rate }}</td>
 				<td>{{ medicine.medicine_amount }}</td>
 			</tr>
 			{% endfor %}
-			<tr>
+			<tr style="border-top: 2px solid #32c69a">
 				<th></th>
 				<th></th>
 				<th>Total Amount</th>
@@ -63,14 +63,15 @@
 	<br>
 </section>
 <section>
-	<div class="row">
+	<div class="col-lg-4 info_box_col">
+					<div class="info_form_container">
 		<div class="col"></div>
 		<div class="col col-align-center">
 			<form action="" method="POST">
 				{{ form.hidden_tag() }}
 				<fieldset class="form-group">
 					<legend>Add Medicine</legend>
-					<div class="form-group">
+					<div class="form-group" align="left">
 						{{ form.medicine_id.label(class="form-control-label") }}
 						{% if form.medicine_id.errors %}
 							{{ form.medicine_id(class="form-control is-invalid") }}
@@ -83,7 +84,7 @@
 							{{ form.medicine_id(class="form-control") }}
 						{% endif %}
 					</div>
-					<div class="form-group">
+					<div class="form-group" align="left">
 						{{ form.medicine_name.label(class="form-control-label") }}
 						{% if form.medicine_name.errors %}
 							{{ form.medicine_name(class="form-control is-invalid") }}
@@ -96,7 +97,7 @@
 							{{ form.medicine_name(class="form-control") }}
 						{% endif %}
 					</div>
-					<div class="form-group">
+					<div class="form-group" align="left">
 						{{ form.medicine_rate.label(class="form-control-label") }}
 						{% if form.medicine_rate.errors %}
 							{{ form.medicine_rate(class="form-control is-invalid") }}
@@ -109,7 +110,7 @@
 							{{ form.medicine_rate(class="form-control") }}
 						{% endif %}
 					</div>
-					<div class="form-group">
+					<div class="form-group" align="left">
 						{{ form.medicine_quantity.label(class="form-control-label") }}
 						{% if form.medicine_quantity.errors %}
 							{{ form.medicine_quantity(class="form-control is-invalid") }}
@@ -117,14 +118,14 @@
 								{% for error in form.medicine_quantity.errors %}
 									<span>{{ error }}</span>
 								{% endfor %}
-							</div>
+							</div> 
 						{% else %}
 							{{ form.medicine_quantity(class="form-control") }}
 						{% endif %}
 					</div>
 					<div class="form-group">
-						{{ form.submit(class="btn btn-primary") }}
-						<a class="btn btn-primary" href="{{ url_for('show_patient_details', patient_id=patient.patient_id) }}">Go Back</a>
+						{{ form.submit(class="btn btn-outline buttons") }}
+						<a class="btn btn-outline buttons" href="{{ url_for('show_patient_details', patient_id=patient.patient_id) }}">Go Back</a>
 					</div>
 				</fieldset>
 			</form>

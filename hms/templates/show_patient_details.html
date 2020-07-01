@@ -37,7 +37,7 @@
 	<div>
 		<a class="btn btn-success" href="{{ url_for('update_patient_details', patient_id=patient.patient_id) }}">Update Patient Details</a>
 		<a class="btn btn-danger" href="{{ url_for('delete_patient', patient_id=patient.patient_id) }}">Delete Patient</a>
-		<a class="btn btn-primary" href="{{ url_for('generate_bill', patient_id=patient.patient_id) }}">Generate Bill</a>
+		<a class="btn btn-outline buttons" href="{{ url_for('generate_bill', patient_id=patient.patient_id) }}">Generate Bill</a>
 	</div>
 	<br>
 	{% endif %}
@@ -47,21 +47,21 @@
 	<h1>Medicines Issued</h1>
 	<div class="row">
 		<table class="table">
-			<tr class="table-primary">
-				<th>Medicine Name</th>
-				<th>Quantity</th>
-				<th>Rate</th>
-				<th>Amount</th>
+			<tr class="table-primary" >
+				<th style="background-color: #32c69a;">Medicine Name</th>
+				<th style="background-color: #32c69a;">Quantity</th>
+				<th style="background-color: #32c69a;">Rate</th>
+				<th style="background-color: #32c69a;">Amount</th>
 			</tr>
 			{% for medicine in patient.medicines %}
-			<tr>
+			<tr style="border-top: 2px solid #32c69a">
 				<td>{{ medicine.medicine_name }}</td>
 				<td>{{ medicine.medicine_quantity }}</td>
 				<td>{{ medicine.medicine_rate }}</td>
 				<td>{{ medicine.medicine_amount }}</td>
 			</tr>
 			{% endfor %}
-			<tr>
+			<tr style="border-top: 2px solid #32c69a">
 				<th></th>
 				<th></th>
 				<th>Total Amount</th>
@@ -72,7 +72,7 @@
 	<br>
 	{% if session.get('ROLE') == "pharm" %}
 	<div>
-		<a class="btn btn-primary" href="{{ url_for('issue_medicines', patient_id=patient.patient_id) }}">Issue New Medicines</a>
+		<a class="btn btn-outline buttons" href="{{ url_for('issue_medicines', patient_id=patient.patient_id) }}">Issue New Medicines</a>
 	</div>
 	<br>
 	{% endif %}
@@ -83,17 +83,17 @@
 	<h1>Diagnostics Conducted</h1>
 	<div class="row">
 		<table class="table">
-			<tr class="table-primary">
-				<th>Diagnostics Name</th>
-				<th>Amount</th>
+			<tr class="table-primary" >
+				<th style="background-color: #32c69a;">Diagnostics Name</th>
+				<th style="background-color: #32c69a;">Amount</th>
 			</tr>
 			{% for diagnostics in patient.diagnostics %}
-			<tr>
+			<tr style="border-top: 2px solid #32c69a">
 				<td>{{ diagnostics.diagnostics_name }}</td>
 				<td>{{ diagnostics.diagnostics_amount }}</td>
 			</tr>
 			{% endfor %}
-			<tr>
+			<tr style="border-top: 2px solid #32c69a">
 				<th>Total Amount</th>
 				<th>{{ diag_total_amount }}</th>
 			</tr>
@@ -102,7 +102,7 @@
 	<br>
 	{% if session.get('ROLE') == "diag" %}
 	<div>
-		<a class="btn btn-primary" href="{{ url_for('add_diagnostics_test', patient_id=patient.patient_id) }}">Add New Diagnostics Tests</a>
+		<a class="btn btn btn-outline buttons" href="{{ url_for('add_diagnostics_test', patient_id=patient.patient_id) }}">Add New Diagnostics Tests</a>
 	</div>
 	<br>
 	{% endif %}

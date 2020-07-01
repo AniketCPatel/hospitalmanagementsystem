@@ -9,41 +9,64 @@
 	<!--Custom CSS-->
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
-</head>
-<body>
-	<!--Nav Bar-->
-	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: white;">
-		<div class="container pt-3 pb-3">
-			<a class="navbar-brand" href="#">Hospital Management System</a>
-			{% if session.get('USER_ID') %}
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+	<link rel="stylesheet" type="text/css" href="static/styles/bootstrap4/bootstrap.min.css">
+	<link href="static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="static/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+	<link rel="stylesheet" type="text/css" href="static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+	<link rel="stylesheet" type="text/css" href="static/plugins/OwlCarousel2-2.2.1/animate.css">
+	<link rel="stylesheet" type="text/css" href="static/styles/main_styles.css">
+	<link rel="stylesheet" type="text/css" href="static/styles/responsive.css">
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="{{ url_for('search_patient') }}">Search Patient</a>
-					</li>
-					{% if session.get('ROLE') == "adm_desk" %}
-					<li class="nav-item">
-						<a class="nav-link" href="{{ url_for('add_patient') }}">Add Patient</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{ url_for('view_active_patients') }}">View Active Patients</a>
-					</li>
-					{% endif %}
-				</ul>
-				<a class="btn btn-primary pt-2 pb-2" href="{{ url_for('logout') }}">Logout</a>
-			</div>
-			{% else %}
-			<a class="btn btn-primary pt-2 pb-2 ml-auto" href="{{ url_for('login') }}">Login</a>
-			{% endif %}
-		</div>
-	</nav>
+</head>
+<body style="background-color:#f8f9fa">
+	<!--Nav Bar-->
+	<div class="header_nav" id="header_nav_pin">
+					<div class="header_nav_inner">
+						<div class="header_nav_container">
+							<div class="container" >
+								<div class="row">
+									<div class="col">
+										<div class="header_nav_content d-flex flex-row align-items-center justify-content-start">
+											<nav class="navbar navbar-expand-lg navbar-light">
+												<div class="container pt-3 pb-3">
+													<a class="navbar-brand" href="#">HOSPI+AL</a>
+													{% if session.get('USER_ID') %}
+													<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+														<span class="navbar-toggler-icon"></span>
+													</button>
+
+													<div class="collapse navbar-collapse" id="navbarSupportedContent">
+														<ul class="navbar-nav mr-auto">
+															<li class="nav-item">
+																<a class="nav-link" href="{{ url_for('search_patient') }}">Search Patient</a>
+															</li>
+															{% if session.get('ROLE') == "adm_desk" %}
+															<li class="nav-item">
+																<a class="nav-link" href="{{ url_for('add_patient') }}">Add Patient</a>
+															</li>
+															<li class="nav-item">
+																<a class="nav-link" href="{{ url_for('view_active_patients') }}">View Active Patients</a>
+															</li>
+															{% endif %}
+														</ul>
+														<a class="btn btn-outline buttons pt-2 pb-2" href="{{ url_for('logout') }}">Logout</a>
+													</div>
+													{% else %}
+													<a class="btn btn-outline buttons pt-2 pb-2 ml-auto" href="{{ url_for('login') }}">Login</a>
+													{% endif %}
+												</div>
+											</nav>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
 	<!--Flash Messages and Main Content-->
-	<div class="container">
+	<div class="container" align="center">
+		<br> <br>
 		{% with messages = get_flashed_messages(with_categories=true) %}
 			{% if messages %}
 				{% for category, message in messages %}
@@ -63,5 +86,12 @@
 
 	<!--Custom JS-->
 	<script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+	<script src="static/js/jquery-3.3.1.min.js"></script>
+	<script src="static/styles/bootstrap4/popper.js"></script>
+	<script src="static/styles/bootstrap4/bootstrap.min.js"></script>
+	<script src="static/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+	<script src="static/plugins/easing/easing.js"></script>
+	<script src="static/plugins/parallax-js-master/parallax.min.js"></script>
+	<script src="static/js/custom.js"></script>
 </body>
 </html>
