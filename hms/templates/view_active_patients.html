@@ -3,7 +3,7 @@
 <h1>Total Active Patients in the Hospital - {{ patients.total }}</h1>
 
 <table class="table">
-	<tr class="table-primary">
+	<tr style="background-color: #32c69a;">
 		<th>Patient ID</th>
 		<th>Name</th>
 		<th>Age</th>
@@ -13,14 +13,14 @@
 		<th>Operations</th>
 	</tr>
 	{% for patient in patients.items %}
-	<tr>
+	<tr style="border-top: 2px solid #32c69a">
 		<td>{{ patient.patient_id }}</td>
 		<td>{{ patient.patient_name }}</td>
 		<td>{{ patient.patient_age }}</td>
 		<td>{{ patient.patient_address }}</td>
 		<td>{{ patient.patient_room_type }}</td>
 		<td>{{ patient.patient_status }}</td>
-		<td><a class="btn btn-primary" href="{{ url_for('show_patient_details', patient_id=patient.patient_id) }}">Show Details</a></td>
+		<td><a class="btn btn-outline buttons" href="{{ url_for('show_patient_details', patient_id=patient.patient_id) }}">Show Details</a></td>
 	</tr>
 	{% endfor %}
 </table>
@@ -36,7 +36,7 @@
 		{% endfor %}
 		</ul>
 		<ul>
-			<a href="{{ url_for('view_active_patients') }}" class="btn btn-primary">Refresh Page</a>
+			<a href="{{ url_for('view_active_patients') }}" class="btn btn-outline buttons">Refresh Page</a>
 		</ul>
 	</div>
 </nav>
