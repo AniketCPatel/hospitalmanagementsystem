@@ -160,6 +160,9 @@ def issue_medicines():
 		form = MedicinesForm()
 		patient_id = request.args.get('patient_id', None, type=int)
 		patient = Patient.query.filter_by(patient_id=patient_id).first()
+		if patient.patient_status.lower() == "inactive":
+			flash("Action Forbidden!!!", category="danger")
+			return redirect(url_for('search_patient'))
 		if not form.medicine_id.data:
 			form.medicine_id.data = MedicinesForm.generate_medicine_id()
 		if form.validate_on_submit() and patient_id:
@@ -187,6 +190,9 @@ def add_diagnostics_test():
 		form = DiagnosticsForm()
 		patient_id = request.args.get('patient_id', None, type=int)
 		patient = Patient.query.filter_by(patient_id=patient_id).first()
+		if patient.patient_status.lower() == "inactive":
+			flash("Action Forbidden!!!", category="danger")
+			return redirect(url_for('search_patient'))
 		if not form.diagnostics_id.data:
 			form.diagnostics_id.data = DiagnosticsForm.generate_diagnostics_id()
 		if form.validate_on_submit() and patient_id:
