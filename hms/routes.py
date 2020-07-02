@@ -140,14 +140,18 @@ def delete_patient():
 		patient_id = request.args.get('patient_id', None, type=int)
 		patient = Patient.query.filter_by(patient_id=patient_id).first()
 		if form.validate_on_submit():
-			if form.patient_id.data == patient_id and patient_id != None:
-				patient.patient_status = "Inactive"
-				db.session.commit()
-				flash("Patient Data Successfully Deleted!!!", category="success")
-				return redirect(url_for('search_patient'))
+			if not form.confirm.data:
+				flash("Confirmation Box Not Checked!!!", category="danger")
+				return redirect('search_patient')
 			else:
-				flash("Patient Not Found!!!", category="danger")
-				return redirect(url_for('search_patient'))
+				if form.patient_id.data == patient_id and patient_id != None:
+					patient.patient_status = "Inactive"
+					db.session.commit()
+					flash("Patient Data Successfully Deleted!!!", category="success")
+					return redirect(url_for('search_patient'))
+				else:
+					flash("Patient Not Found!!!", category="danger")
+					return redirect(url_for('search_patient'))
 		return render_template('delete_patient.html', title="Delete Patient", form=form, patient=patient)
 
 
@@ -228,20 +232,24 @@ def generate_bill():
 				return redirect(url_for('search_patient'))
 			else:
 				if form.validate_on_submit():
-					patient.patient_DOD = dt.today()
-					patient.patient_status = "Inactive"
-					days = calculate_days(patient.patient_DOJ, patient.patient_DOD)
-					room_fees = calculate_room_fees(patient.patient_room_type, days)
-					med_total_amount = 0
-					for medicine in patient.medicines:
-						med_total_amount += medicine.medicine_amount
-					diag_total_amount = 0
-					for diagnostic in patient.diagnostics:
-						diag_total_amount += diagnostic.diagnostics_amount
-					grand_total = room_fees + med_total_amount + diag_total_amount
-					db.session.commit()
-					flash("Bill Generated and Patient Discharged!!!", category="success")
-					return render_template('bill.html', title="Bill", patient=patient, days=days, room_fees=room_fees, med_total_amount=med_total_amount, diag_total_amount=diag_total_amount, grand_total=grand_total)
+					if not form.confirm.data:
+						flash("Confirmation Box Not Checked!!!", category="danger")
+						return redirect('search_patient')
+					else:
+						patient.patient_DOD = dt.today()
+						patient.patient_status = "Inactive"
+						days = calculate_days(patient.patient_DOJ, patient.patient_DOD)
+						room_fees = calculate_room_fees(patient.patient_room_type, days)
+						med_total_amount = 0
+						for medicine in patient.medicines:
+							med_total_amount += medicine.medicine_amount
+						diag_total_amount = 0
+						for diagnostic in patient.diagnostics:
+							diag_total_amount += diagnostic.diagnostics_amount
+						grand_total = room_fees + med_total_amount + diag_total_amount
+						db.session.commit()
+						flash("Bill Generated and Patient Discharged!!!", category="success")
+						return render_template('bill.html', title="Bill", patient=patient, days=days, room_fees=room_fees, med_total_amount=med_total_amount, diag_total_amount=diag_total_amount, grand_total=grand_total)
 				return render_template('generate_bill.html', title="Generate Bill", form=form, patient=patient)
 
 
