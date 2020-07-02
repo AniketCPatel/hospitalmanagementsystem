@@ -71,10 +71,12 @@
 	</div>
 	<br>
 	{% if session.get('ROLE') == "pharm" %}
-	<div>
-		<a class="btn btn-outline buttons" href="{{ url_for('issue_medicines', patient_id=patient.patient_id) }}">Issue New Medicines</a>
-	</div>
-	<br>
+		{% if patient.patient_status.lower() != "inactive" %}
+			<div>
+				<a class="btn btn-outline buttons" href="{{ url_for('issue_medicines', patient_id=patient.patient_id) }}">Issue New Medicines</a>
+			</div>
+			<br>
+		{% endif %}
 	{% endif %}
 </section>
 {% endif %}
@@ -101,10 +103,12 @@
 	</div>
 	<br>
 	{% if session.get('ROLE') == "diag" %}
-	<div>
-		<a class="btn btn btn-outline buttons" href="{{ url_for('add_diagnostics_test', patient_id=patient.patient_id) }}">Add New Diagnostics Tests</a>
-	</div>
-	<br>
+		{% if patient.patient_status.lower() != "inactive" %}
+			<div>
+				<a class="btn btn btn-outline buttons" href="{{ url_for('add_diagnostics_test', patient_id=patient.patient_id) }}">Add New Diagnostics Tests</a>
+			</div>
+			<br>
+		{% endif %}
 	{% endif %}
 </section>
 {% endif %}
