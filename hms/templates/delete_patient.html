@@ -1,49 +1,103 @@
 {% extends 'layout.html' %}
 {% block content %}
+<style>
+	#customers {
+   border-collapse: collapse;
+   width: 550px;
+ }
+
+ #customers td, #customers th {
+   border: 1px solid #ddd;
+   padding: 8px;
+ }
+
+ #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+ #customers tr:hover {background-color: #ddd;}
+
+ #customers th {
+   padding-top: 12px;
+   padding-bottom: 12px;
+   text-align: left;
+   color: black;
+   background-color: #32c69a;
+
+ </style>
 <section>
-	<h1>Patient Details</h1>
-	<div class="row">
-		<div class="col">
-			Patient ID <br>
-			Name <br>
-			Age	<br>
-			Address <br>
-			Date of joining <br>
-			Date of discharge <br>
-			Room Type <br>
-			State <br>
-			City <br>
-			Status <br>
-		</div>
-		<div class="col pr-auto">
-			: {{ patient.patient_id }} <br>
-			: {{ patient.patient_name }} <br>
-			: {{ patient.patient_age }} <br>
-			: {{ patient.patient_address }} <br>
-			: {{ patient.patient_DOJ }} <br>
-			{% if patient.patient_DOD.strftime("%Y-%B-%d") == "3000-January-01" %}
-			: Not Discharged Yet <br>
-			{% else %}
-			: {{ patient.patient_DOD }} <br>
-			{% endif %}
-			: {{ patient.patient_room_type }} <br>
-			: {{ patient.patient_state }} <br>
-			: {{ patient.patient_city }} <br>
-			: {{ patient.patient_status }} <br>
-		</div>
-	</div>
+	<div class="col-lg-6 info_box_col">
+   <div class="row">
+      <div class="col">
+         <table id="customers">
+           <tr>
+              <th colspan="2"><center><h1>Patient Details</h1></center></th>
+           </tr>
+            <tr>
+               <td>Patient ID :</td>
+               <td> {{ patient.patient_id }}</td>
+            </tr>
+            <tr>
+               <td>Name :</td>
+               <td> {{ patient.patient_name }}</td>
+            </tr>
+            <tr>
+               <td>Age    : </td>
+               <td>{{ patient.patient_age }}</td>
+            </tr>
+            <tr>
+               <td>Address :</td>
+               <td>{{ patient.patient_address }}</td>
+            </tr>
+            <tr>
+               <td>Date of joining :</td>
+               <td>{{ patient.patient_DOJ }}</td>
+            </tr>
+            <tr>
+               <td>Date of discharge :</td>
+               <td> {% if patient.patient_DOD.strftime("%Y-%B-%d") == "3000-January-01" %}
+         Not Discharged Yet
+         {% else %}
+         {{ patient.patient_DOD }}
+         {% endif %}</td>
+            </tr>
+            <tr>
+               <td>Room Type : </td>
+               <td>{{ patient.patient_room_type }}</td>
+            </tr>
+            <tr>
+               <td>State : </td>
+               <td>{{ patient.patient_state }}</td>
+            </tr>
+            <tr>
+               <td>City : </td>
+               <td>{{ patient.patient_city }}</td>
+            </tr>
+            <tr>
+               <td>Status :  </td>
+               <td>{{ patient.patient_status }}</td>
+            </tr>
+         </table>
+      </div>
+   </div>
+      </div>
+	<br>
+	<br>
 	<form action="" method="POST">
 		{{ form.hidden_tag() }}
 		Are you sure you want to delete this patient?? <br>
 		{{ form.confirm }}
 		{{ form.confirm.label(class="form-control-label") }} <br>
-		<div class="row">
-			{{ form.patient_id.label(class="col form-control-label") }}
-			{{ form.patient_id(class="col form-control") }}
-			<div class="col"></div>
-		</div> <br>
+		<br>
+		<div class="row-center">
+			<table>
+			<tr>
+				<td>{{ form.patient_id.label(class="col form-control-label") }}</td>
+				<td>{{ form.patient_id(class="col form-control") }}</td>
+			</tr>
+			</table>
+		</div>
+		<br>
 		{{ form.submit(class="btn btn-danger") }}
-		<a class="btn btn-outline buttons" href="{{ url_for('show_patient_details', patient_id=patient.patient_id) }}">Go Back</a>
+		<a class="btn btn-warning" style="margin-left:20px;" href="{{ url_for('show_patient_details', patient_id=patient.patient_id) }}">Go Back</a>
 	</form>
 </section>
 {% endblock content %}

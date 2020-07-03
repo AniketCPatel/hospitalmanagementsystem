@@ -3,7 +3,7 @@
 <style>
 	#customers {
    border-collapse: collapse;
-   width: 500px;
+   width: 550px;
  }
  
  #customers td, #customers th {
@@ -24,7 +24,7 @@
  
  </style> 
  <section>
-   <div class="col-lg-5 info_box_col">
+   <div class="col-lg-6 info_box_col">
    <div class="row">
       <div class="col">
          <table id="customers">
@@ -82,10 +82,10 @@
    <br>
    <br>
    {% if session.get('ROLE') == "adm_desk" %}
-   <div style="margin-left: 61px;">
+   <div class="row-center">
       <a class="btn btn-primary" href="{{ url_for('update_patient_details', patient_id=patient.patient_id) }}">Update Patient Details</a>
       <a class="btn btn-danger" href="{{ url_for('delete_patient', patient_id=patient.patient_id) }}">Delete Patient</a>
-      <a class="btn btn-warning buttons" href="{{ url_for('generate_bill', patient_id=patient.patient_id) }}">Generate Bill</a>
+      <a class="btn btn-secondary buttons" href="{{ url_for('generate_bill', patient_id=patient.patient_id) }}">Generate Bill</a>
    </div>
    <br>
    {% endif %}
@@ -94,8 +94,8 @@
 <hr>
 <section>
 	<h1>Medicines Issued</h1>
-	<div class="row">
-		<table class="table">
+	<div class="row-center">
+		<table class="table" style="width:550px;">
 			<tr class="table-primary" >
 				<th style="background-color: #32c69a;">Medicine Name</th>
 				<th style="background-color: #32c69a;">Quantity</th>
@@ -111,9 +111,8 @@
 			</tr>
 			{% endfor %}
 			<tr style="border-top: 2px solid #32c69a">
-				<th></th>
-				<th></th>
-				<th>Total Amount</th>
+                <th></th>
+				<th colspan="2">Total Amount</th>
 				<th>{{ med_total_amount }}</th>
 			</tr>
 		</table>
@@ -133,8 +132,9 @@
 <hr>
 <section>
 	<h1>Diagnostics Conducted</h1>
-	<div class="row">
-		<table class="table">
+    <br>
+	<div class="row-center">
+		<table class="table" style="width:550px;">
 			<tr class="table-primary" >
 				<th style="background-color: #32c69a;">Diagnostics Name</th>
 				<th style="background-color: #32c69a;">Amount</th>

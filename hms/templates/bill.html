@@ -1,43 +1,114 @@
 {% extends 'layout.html' %}
 {% block content %}
+<style>
+	#customers {
+   border-collapse: collapse;
+   width: 550px;
+ }
+
+ #customers td, #customers th {
+   border: 1px solid #ddd;
+   padding: 8px;
+ }
+
+ #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+ #customers tr:hover {background-color: #ddd;}
+
+ #customers th {
+   padding-top: 12px;
+   padding-bottom: 12px;
+   text-align: left;
+   color: black;
+   background-color: #32c69a;
+   }
+
+   #customers1 {
+   border-collapse: collapse;
+   width: 550px;
+ }
+
+ #customers1 td, #customers th {
+   border: 1px solid #ddd;
+   padding: 8px;
+ }
+
+ #customers1 tr:nth-child(even){background-color: #f2f2f2;}
+
+ #customers1 tr:hover {background-color: #ddd;}
+
+ #customers1 th {
+   padding-top: 12px;
+   padding-bottom: 12px;
+   text-align: left;
+   color: black;
+   background-color: #32c69a;
+
+ </style>
 <section>
-	<h1>Patient Details</h1>
-	<div class="row">
-		<div class="col">
-			Patient ID <br>
-			Name <br>
-			Age	<br>
-			Address <br>
-			Date of joining <br>
-			Date of discharge <br>
-			Room Type <br>
-			State <br>
-			City <br>
-			Status <br>
-		</div>
-		<div class="col pr-auto">
-			: {{ patient.patient_id }} <br>
-			: {{ patient.patient_name }} <br>
-			: {{ patient.patient_age }} <br>
-			: {{ patient.patient_address }} <br>
-			: {{ patient.patient_DOJ }} <br>
-			{% if patient.patient_DOD.strftime("%Y-%B-%d") == "3000-January-01" %}
-			: Not Discharged Yet <br>
-			{% else %}
-			: {{ patient.patient_DOD }} <br>
-			{% endif %}
-			: {{ patient.patient_room_type }} <br>
-			: {{ patient.patient_state }} <br>
-			: {{ patient.patient_city }} <br>
-			: {{ patient.patient_status }} <br>
-		</div>
-	</div>
+	<div class="col-lg-6 info_box_col">
+   <div class="row">
+      <div class="col">
+         <table id="customers">
+           <tr>
+              <th colspan="2"><center><h1>Patient Details</h1></center></th>
+           </tr>
+            <tr>
+               <td>Patient ID :</td>
+               <td> {{ patient.patient_id }}</td>
+            </tr>
+            <tr>
+               <td>Name :</td>
+               <td> {{ patient.patient_name }}</td>
+            </tr>
+            <tr>
+               <td>Age    : </td>
+               <td>{{ patient.patient_age }}</td>
+            </tr>
+            <tr>
+               <td>Address :</td>
+               <td>{{ patient.patient_address }}</td>
+            </tr>
+            <tr>
+               <td>Date of joining :</td>
+               <td>{{ patient.patient_DOJ }}</td>
+            </tr>
+            <tr>
+               <td>Date of discharge :</td>
+               <td> {% if patient.patient_DOD.strftime("%Y-%B-%d") == "3000-January-01" %}
+         Not Discharged Yet
+         {% else %}
+         {{ patient.patient_DOD }}
+         {% endif %}</td>
+            </tr>
+            <tr>
+               <td>Room Type : </td>
+               <td>{{ patient.patient_room_type }}</td>
+            </tr>
+            <tr>
+               <td>State : </td>
+               <td>{{ patient.patient_state }}</td>
+            </tr>
+            <tr>
+               <td>City : </td>
+               <td>{{ patient.patient_city }}</td>
+            </tr>
+            <tr>
+               <td>Status :  </td>
+               <td>{{ patient.patient_status }}</td>
+            </tr>
+         </table>
+      </div>
+   </div>
+      </div>
 	<br>
+	<br>
+	<hr>
 </section>
 <section>
 	<h1>Medicines Issued</h1>
-	<div class="row">
-		<table class="table">
+	<div class="row-center">
+		<table class="table" style="width:550px;">
 			<tr class="table-primary">
 				<th>Medicine Name</th>
 				<th>Quantity</th>
@@ -62,10 +133,11 @@
 	</div>
 	<br>
 </section>
+<hr>
 <section>
 	<h1>Diagnostics Conducted</h1>
-	<div class="row">
-		<table class="table">
+	<div class="row-center">
+		<table class="table" style="width:550px;">
 			<tr class="table-primary">
 				<th>Diagnostics Name</th>
 				<th>Amount</th>
@@ -84,28 +156,42 @@
 	</div>
 	<br>
 </section>
+<hr>
 <section>
-	<h1>Billing Details : </h1> <br> <br>
-	<div class="row">
-		<div class="col">
-			Total days of admission <br>
-			Total Amount for room <br>
-			Medicines Total Amount <br>
-			Diagnostics Total Amount <br>
-			<b>Grand Total</b> <br>
-		</div>
-		<div class="col">
-			: {{ days }}<br>
-			: {{ room_fees }}<br>
-			: {{ med_total_amount }}<br>
-			: {{ diag_total_amount }}<br>
-			<b>: {{ grand_total }}</b><br>
-		</div>
-		<div class="col"></div>
-	</div>
+	<table id="customers1">
+		<tr>
+			<th colspan="2">
+				<center>
+					<h1>Billing Details</h1>
+				</center>
+			</th>
+		</tr>
+		<tr>
+			<td>Total days of admission :</td>
+			<td> {{ days }}</td>
+		</tr>
+		<tr>
+			<td>Total Amount for room :</td>
+			<td> {{ room_fees }}</td>
+		</tr>
+		<tr>
+			<td>Medicines Total Amount : </td>
+			<td>{{ med_total_amount }}</td>
+		</tr>
+		<tr>
+			<td>Diagnostics Total Amount :</td>
+			<td> {{ diag_total_amount }} </td>
+		</tr>
+		<tr>
+			<td><b>Grand Total :</b> </td>
+			<td><b> {{ grand_total }}</b></td>
+		</tr>
+
+	</table>
 </section>
 <br>
-<a class="btn btn-outline buttons" href="{{ url_for('search_patient') }}">Go To Search Patient</a>
+<br>
+<a class="btn btn-warning" href="{{ url_for('search_patient') }}">Go To Search Patient</a>
 <br>
 <br>
 {% endblock content %}

@@ -1,14 +1,15 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<div class="col-lg-4 info_box_col">
+<div class="col-lg-5 info_box_col">
 					<div class="info_form_container">
 	<div class="col"></div>
 	<div class="col col-align-center">
-		<form action="" method="POST">
+		<form action="" method="POST" style="font-size: larger;">
 			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
-				<legend class="section_title">Update Patient Details</legend>
+				<legend class="section_title" style="font-size:X-large;">Update Patient Details</legend>
+				<br>
 				<div class="form-group" align="left">
 					{{ form.ssn.label(class="form-control-label") }}
 					{% if form.ssn.errors %}
@@ -113,9 +114,10 @@
 						{{ form.patient_city(class="form-control") }}
 					{% endif %}
 				</div>
+				<br>
 				<div class="form-group">
-					{{ form.submit(class="btn btn-outline buttons") }} 
-					<a class="btn btn-outline buttons" href="{{ url_for('show_patient_details', patient_id=patient_id) }}">Go Back</a>
+					{{ form.submit(class="btn btn-outline buttons") }}
+					<a class="btn btn-warning" style="margin-left:20px;" href="{{ url_for('show_patient_details', patient_id=patient_id) }}">Go Back</a>
 				</div>
 			</fieldset>
 		</form>

@@ -1,43 +1,100 @@
 {% extends 'layout.html' %}
 {% block content %}
+<style>
+	#customers {
+		border-collapse: collapse;
+		width: 550px;
+	}
+
+	#customers td,
+	#customers th {
+		border: 1px solid #ddd;
+		padding: 8px;
+	}
+
+	#customers tr:nth-child(even) {
+		background-color: #f2f2f2;
+	}
+
+	#customers tr:hover {
+		background-color: #ddd;
+	}
+
+	#customers th {
+		padding-top: 12px;
+		padding-bottom: 12px;
+		text-align: left;
+		color: black;
+		background-color: #32c69a;
+</style>
 <section>
-	<h1>Patient Details</h1>
-	<div class="row">
-		<div class="col">
-			Patient ID <br>
-			Name <br>
-			Age	<br>
-			Address <br>
-			Date of joining <br>
-			Date of discharge <br>
-			Room Type <br>
-			State <br>
-			City <br>
-			Status <br>
-		</div>
-		<div class="col pr-auto">
-			: {{ patient.patient_id }} <br>
-			: {{ patient.patient_name }} <br>
-			: {{ patient.patient_age }} <br>
-			: {{ patient.patient_address }} <br>
-			: {{ patient.patient_DOJ }} <br>
-			{% if patient.patient_DOD.strftime("%Y-%B-%d") == "3000-January-01" %}
-			: Not Discharged Yet <br>
-			{% else %}
-			: {{ patient.patient_DOD }} <br>
-			{% endif %}
-			: {{ patient.patient_room_type }} <br>
-			: {{ patient.patient_state }} <br>
-			: {{ patient.patient_city }} <br>
-			: {{ patient.patient_status }} <br>
+	<div class="col-lg-6 info_box_col">
+		<div class="row">
+			<div class="col">
+				<table id="customers">
+					<tr>
+						<th colspan="2">
+							<center>
+								<h1>Patient Details</h1>
+							</center>
+						</th>
+					</tr>
+					<tr>
+						<td>Patient ID :</td>
+						<td> {{ patient.patient_id }}</td>
+					</tr>
+					<tr>
+						<td>Name :</td>
+						<td> {{ patient.patient_name }}</td>
+					</tr>
+					<tr>
+						<td>Age : </td>
+						<td>{{ patient.patient_age }}</td>
+					</tr>
+					<tr>
+						<td>Address :</td>
+						<td>{{ patient.patient_address }}</td>
+					</tr>
+					<tr>
+						<td>Date of joining :</td>
+						<td>{{ patient.patient_DOJ }}</td>
+					</tr>
+					<tr>
+						<td>Date of discharge :</td>
+						<td> {% if patient.patient_DOD.strftime("%Y-%B-%d") == "3000-January-01" %}
+							Not Discharged Yet
+							{% else %}
+							{{ patient.patient_DOD }}
+							{% endif %}</td>
+					</tr>
+					<tr>
+						<td>Room Type : </td>
+						<td>{{ patient.patient_room_type }}</td>
+					</tr>
+					<tr>
+						<td>State : </td>
+						<td>{{ patient.patient_state }}</td>
+					</tr>
+					<tr>
+						<td>City : </td>
+						<td>{{ patient.patient_city }}</td>
+					</tr>
+					<tr>
+						<td>Status : </td>
+						<td>{{ patient.patient_status }}</td>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</div>
 	<br>
 </section>
+<hr>
 <section>
 	<h1>Diagnostics Conducted</h1>
-	<div class="row">
-		<table class="table">
+	<br>
+	<div class="row-center">
+		<table class="table" style="width:550px;">
 			<tr class="table-primary">
 				<th style="background-color: #32c69a;">Diagnostics Name</th>
 				<th style="background-color: #32c69a;">Amount</th>
@@ -56,16 +113,18 @@
 	</div>
 	<br>
 </section>
+<hr>
 <section>
 
-		<div class="col-lg-4 info_box_col">
+		<div class="col-lg-5 info_box_col">
 					<div class="info_form_container">
 		<div class="col"></div>
 		<div class="col col-align-center">
-			<form action="" method="POST">
+			<form action="" method="POST" style="font-size:larger;">
 				{{ form.hidden_tag() }}
 				<fieldset class="form-group">
-					<legend class="section_title">Add Diagnostics</legend>
+					<legend class="section_title" style="font-size:X-large;">Add Diagnostics</legend>
+					<br>
 					<div class="form-group" align="left">
 						{{ form.diagnostics_id.label(class="form-control-label") }}
 						{% if form.diagnostics_id.errors %}
@@ -105,9 +164,10 @@
 							{{ form.diagnostics_amount(class="form-control") }}
 						{% endif %} 
 					</div>
+					<br>
 					<div class="form-group">
 						{{ form.submit(class="btn btn-outline buttons") }}
-						<a class="btn btn-outline buttons" href="{{ url_for('show_patient_details', patient_id=patient.patient_id) }}">Go Back</a>
+						<a class="btn btn-warning" href="{{ url_for('show_patient_details', patient_id=patient.patient_id) }}">Go Back</a>
 					</div>
 				</fieldset>
 			</form>

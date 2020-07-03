@@ -1,8 +1,32 @@
 {% extends 'layout.html' %}
 {% block content %}
 <h1>Total Active Patients in the Hospital - {{ patients.total }}</h1>
+<br>
+<style>
+	#customers {
+   border-collapse: collapse;
+   width: 1100px;
+ }
 
-<table class="table">
+ #customers td, #customers th {
+   border: 1px solid #ddd;
+   padding: 8px;
+ }
+
+ #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+ #customers tr:hover {background-color: #ddd;}
+
+ #customers th {
+   padding-top: 12px;
+   padding-bottom: 12px;
+   text-align: left;
+   color: black;
+   background-color: #32c69a;
+
+ </style>
+
+<table class="table" id="customers">
 	<tr style="background-color: #32c69a;">
 		<th>Patient ID</th>
 		<th>Name</th>
@@ -36,7 +60,7 @@
 		{% endfor %}
 		</ul>
 		<ul>
-			<a href="{{ url_for('view_active_patients') }}" class="btn btn-outline buttons">Refresh Page</a>
+			<a href="{{ url_for('view_active_patients') }}" class="btn btn-danger">Refresh Page</a>
 		</ul>
 	</div>
 </nav>

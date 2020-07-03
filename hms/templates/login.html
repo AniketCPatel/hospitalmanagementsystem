@@ -3,10 +3,11 @@
 	<div class="col-lg-4 info_box_col">
 					<div class="info_form_container"><div class="col"></div>
 	<div class="col col-align-center">
-		<form action="" method="POST">
+		<form action="" method="POST" style="font-size:larger;">
 			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
-				<legend class="section_title">Login Form</legend>
+				<legend class="section_title" style="font-size:X-large;">Login Form</legend>
+				<br>
 				<div class="form-group" align="left">
 					{{ form.username.label(class="form-control-label") }}
 					{% if form.username.errors %}
@@ -33,6 +34,7 @@
 						{{ form.password(class="form-control") }}
 					{% endif %}
 				</div>
+				<br>
 				<div class="form-group">
 					{{ form.submit(class="btn btn-outline buttons") }}
 				</div>

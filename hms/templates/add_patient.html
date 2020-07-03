@@ -1,14 +1,15 @@
 {% extends 'layout.html' %}
 {% block content %}
-<div class="col-lg-4 info_box_col">
+<div class="col-lg-6 info_box_col">
 					<div class="info_form_container">
 						
 						<div class="col"></div>
 							<div class="col col-align-center">
-								<form action="" method="POST">
+								<form action="" method="POST" style="font-size:larger;">
 									{{ form.hidden_tag() }}
 									<fieldset class="form-group">
-										<legend  class="section_title">Add Patient</legend>
+										<legend  class="section_title" style="font-size:X-large;">Add Patient</legend>
+										<br>
 										<div class="form-group"align="left">
 						
 					{{ form.ssn.label(class="form-control-label") }}
@@ -114,9 +115,9 @@
 						{{ form.patient_city(class="form-control") }}
 					{% endif %}
 				</div>
-				<div class="form-group"align="col-align-center">
-					{{ form.submit(class="info_form_button") }}
-					
+										<br>
+				<div class="form-group">
+					{{ form.submit(class="btn btn-outline buttons") }}
 				</div>
 			</fieldset>
 		</form>

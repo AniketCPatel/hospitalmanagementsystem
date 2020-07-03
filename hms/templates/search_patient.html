@@ -5,10 +5,11 @@
 	<div class="col col-align-center">
 	<div class="col"></div>
 	<div class="col col-align-center">
-		<form action="" method="POST">
+		<form action="" method="POST" style="font-size:larger;">
 			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
-				<legend class="section_title">Search Details</legend>
+				<legend class="section_title" style="font-size:X-large;">Search Details</legend>
+				<br>
 				<div class="form-group" align="left">
 					{{ form.patient_id.label(class="form-control-label") }}
 					{% if form.patient_id.errors %}
@@ -22,6 +23,7 @@
 						{{ form.patient_id(class="form-control") }}
 					{% endif %}
 				</div>
+				<br>
 				<div class="form-group">
 					{{ form.submit(class="btn btn-outline buttons") }}
 				</div>
