@@ -95,10 +95,23 @@ def add_patient():
 		form.patient_DOD.data = dt.today()
 		form.patient_status.data = "Active"
 		if form.validate_on_submit():
-			patient = Patient(ssn=form.ssn.data, patient_id=form.patient_id.data, patient_name=form.patient_name.data, patient_address=form.patient_address.data, patient_age=form.patient_age.data, patient_DOJ=form.patient_DOJ.data, patient_DOD=form.patient_DOD.data, patient_room_type=form.patient_room_type.data, patient_state=form.patient_state.data, patient_city=form.patient_city.data, patient_status=form.patient_status.data)
-			db.session.add(patient)
-			db.session.commit()
+			exceptions_occured = False
+			while True:
+				try:
+					if exceptions_occured:
+						db.session.rollback()
+					patient = Patient(ssn=form.ssn.data, patient_id=form.patient_id.data, patient_name=form.patient_name.data, patient_address=form.patient_address.data, patient_age=form.patient_age.data, patient_DOJ=form.patient_DOJ.data, patient_DOD=form.patient_DOD.data, patient_room_type=form.patient_room_type.data, patient_state=form.patient_state.data, patient_city=form.patient_city.data, patient_status=form.patient_status.data)
+					db.session.add(patient)
+					db.session.commit()
+					break
+				except:
+					db.session.rollback()
+					form.patient_id.data = PatientDetailsForm.generate_patient_id()
+					exceptions_occured = True
 			flash("Patient Successfully Added!!!", category="success")
+			if exceptions_occured:
+				flash("Patient ID was taken... new ID was appended for this patient!!!", category="success")
+				flash(f"New Patient ID is : {form.patient_id.data}", category="info")
 			return redirect(url_for('show_patient_details', patient_id=patient.patient_id))
 		return render_template('add_patient.html', title="Add Patient", form=form)
 
@@ -171,10 +184,23 @@ def issue_medicines():
 			form.medicine_id.data = MedicinesForm.generate_medicine_id()
 		if form.validate_on_submit() and patient_id:
 			medicine_amount = (form.medicine_rate.data * form.medicine_quantity.data)
-			medicine = Medicine(medicine_id=form.medicine_id.data, medicine_name=form.medicine_name.data, medicine_rate=form.medicine_rate.data, medicine_quantity=form.medicine_quantity.data, medicine_amount=medicine_amount, patient_id=patient_id)
-			db.session.add(medicine)
-			db.session.commit()
+			exceptions_occured = False
+			while True:
+				try:
+					if exceptions_occured:
+						db.session.rollback()
+					medicine = Medicine(medicine_id=form.medicine_id.data, medicine_name=form.medicine_name.data, medicine_rate=form.medicine_rate.data, medicine_quantity=form.medicine_quantity.data, medicine_amount=medicine_amount, patient_id=patient_id)
+					db.session.add(medicine)
+					db.session.commit()
+					break
+				except:
+					db.session.rollback()
+					form.medicine_id.data += 1
+					exceptions_occured = True
 			flash("Medicine Successfully Added!!!", category="success")
+			if exceptions_occured:
+				flash("Medicine ID was taken... new ID was appended for this medicine!!!", category="success")
+				flash(f"New Medicine ID is : {form.medicine_id.data}", category="info")
 			return redirect(url_for('show_patient_details', patient_id=medicine.patient_id))
 		elif not patient_id:
 			flash("Patient Not Found!!!", category="danger")
@@ -200,10 +226,23 @@ def add_diagnostics_test():
 		if not form.diagnostics_id.data:
 			form.diagnostics_id.data = DiagnosticsForm.generate_diagnostics_id()
 		if form.validate_on_submit() and patient_id:
-			diagnostic = Diagnostics(diagnostics_id=form.diagnostics_id.data, diagnostics_name=form.diagnostics_name.data, diagnostics_amount=form.diagnostics_amount.data, patient_id=patient_id)
-			db.session.add(diagnostic)
-			db.session.commit()
+			exceptions_occured = False
+			while True:
+				try:
+					if exceptions_occured:
+						db.session.rollback()
+					diagnostic = Diagnostics(diagnostics_id=form.diagnostics_id.data, diagnostics_name=form.diagnostics_name.data, diagnostics_amount=form.diagnostics_amount.data, patient_id=patient_id)
+					db.session.add(diagnostic)
+					db.session.commit()
+					break
+				except:
+					db.session.rollback()
+					form.diagnostics_id.data += 1
+					exceptions_occured = True
 			flash("Diagnostics Test Added Successfully!!!", category="success")
+			if exceptions_occured:
+				flash("Diagnostics ID was taken... new ID was appended for this Diagnostics!!!", category="success")
+				flash(f"New Diagnostics ID is : {form.diagnostics_id.data}", category="info")
 			return redirect(url_for('show_patient_details', patient_id=patient_id))
 		elif not patient_id:
 			flash("User Not Found!!!", category="danger")
